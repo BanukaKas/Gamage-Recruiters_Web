@@ -2,16 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const db = require("./utils/db");
-const adminRoutes = require("./routes/AdminRoute");
-app.use("/api", adminRoutes);
-
+const adminRoutes = require("./Routes/AdminRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 7000; 
+const PORT = process.env.PORT || 7000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use("/api", adminRoutes);
 
 // Test Route
 app.get("/", (req, res) => {
@@ -49,29 +50,6 @@ app.delete("/api/jobs/:id", (req, res) => {
         res.json({ message: "Job deleted successfully" });
     });
 });
-
-const express = require("express");
-const router = express.Router();
-const db = require("../utils/db");
-
-// Delete job by ID
-router.delete("/jobs/:id", (req, res) => {
-    const jobId = req.params.id;
-    const sql = "DELETE FROM postedjobs WHERE id = ?";
-    
-    db.query(sql, [jobId], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: "Failed to delete job" });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: "Job not found" });
-        }
-        res.json({ message: "Job deleted successfully" });
-    });
-});
-
-module.exports = router;
-
 
 // Start Server
 app.listen(PORT, () => {
