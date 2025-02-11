@@ -1,0 +1,167 @@
+.admin-overview-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.admin-overview-content {
+  display: flex;
+  flex-grow: 1;
+}
+
+.admin-overview-container {
+  flex-grow: 1;
+  padding: 50px;
+  background-color: #f8f9fa;
+  margin-top: 100px;
+  margin-left: 50px;
+}
+
+h2 {
+  font-size: 22px;
+  color: #383838;
+  margin-left: 10px;
+}
+
+p {
+  font-size: 14px;
+  color: #757575;
+  margin-left: 10px;
+}
+
+/* Stats Section */
+.admin-stats {
+  display: flex;
+  gap: 20px;
+  margin: 10px;
+}
+
+.stat-box {
+  padding: 15px 20px;
+  width: 250px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  margin-top: 10px;
+  background-color: #DFD5E4;
+  text-align: center; 
+}
+
+/* Wrapper for text */
+.stat-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Number */
+.stat-text h3 {
+  font-size: 20px;
+  color: #000;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Label */
+.stat-text p {
+  font-size: 14px;
+  color: #4A4A4A;
+  margin: 0;
+  margin-left: 20px;
+}
+
+/* Icon */
+.stat-icon {
+  font-size: 26px;
+  color: #575757;
+}
+
+/* Colors */
+.purple {
+  background-color: #DFD5E4;
+}
+
+.orange {
+  background-color: #FFE0CD;
+}
+
+/* Table Styles */
+.admin-table {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: #646464;
+}
+
+th {
+  background: #E4E4E4;
+}
+
+.table-title {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #595959;
+}
+
+.view-btn {
+  background: #ffffff;
+  color: #3570E7;
+  padding: 6px 20px;
+  border-radius: 0px;
+  cursor: pointer;
+  border-color: #858585;
+}
+
+
+
+.delete-btn {
+  background: transparent;
+  color: #AC1F22;
+  font-size: 18px;
+  padding: 5px 11px;
+  cursor: pointer;
+  margin-left: 20px;
+  border-radius: 0px;
+  border-color: #E0B6B6;
+}
+
+.delete-btn:hover {
+  color: darkred;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-overview-content {
+    flex-direction: column;
+  }
+
+  .admin-stats {
+    flex-direction: column;
+  }
+
+  .stat-box {
+    width: 100%;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  .view-btn, .delete-btn {
+    font-size: 12px;
+  }
+}
