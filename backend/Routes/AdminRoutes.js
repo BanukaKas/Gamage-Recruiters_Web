@@ -1,6 +1,6 @@
 // AdminRoute.js
 const express = require("express");
-const { getAllJobs, postJob, deleteJob } = require("../controllers/AdminController");
+const { getAllJobs, postJob, deleteJob } = require("../controllers/AdminControllers");
 
 const router = express.Router();
 
