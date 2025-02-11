@@ -7,11 +7,13 @@ import '../../css/Admin/Admin_my_job.css';
 import { Modal, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import adminLBoxImage from '../../assets/admin_l_box.jpg';
+import Toast from 'react-bootstrap/Toast';
 
 const AdminDashboard = () => {
   const [jobs, setJobs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:7000/api/jobs")
@@ -37,11 +39,12 @@ const AdminDashboard = () => {
       
       if (response.ok) {
         setJobs(jobs.filter(job => job.id !== selectedJob.id));
+        setToastMessage({ type: 'success', text: 'Job deleted successfully!' });
       } else {
-        console.error("Failed to delete job");
+        setToastMessage({ type: 'error', text: 'Failed to delete job!' });
       }
     } catch (error) {
-      console.error("Error deleting job:", error);
+      setToastMessage({ type: 'error', text: 'Error deleting job!' });
     } finally {
       setShowModal(false);
     }
@@ -116,6 +119,14 @@ const AdminDashboard = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {toastMessage && (
+        <div className="toast-container position-fixed top-0 end-0 p-3" style={{ zIndex: 1050 }}>
+          <Toast onClose={() => setToastMessage(null)} show={true} delay={3000} autohide bg={toastMessage.type === 'success' ? 'success' : 'danger'}>
+            <Toast.Body className="text-white">{toastMessage.text}</Toast.Body>
+          </Toast>
+        </div>
+      )}
     </div>
   );
 };
