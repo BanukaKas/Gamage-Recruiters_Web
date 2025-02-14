@@ -10,7 +10,7 @@ import adminLBoxImage from '../../assets/admin_l_box.jpg';
 import Toast from 'react-bootstrap/Toast';
 
 const AdminDashboard = () => {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([]); // Ensure jobs is always an array
   const [showModal, setShowModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
@@ -18,8 +18,17 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetch("http://localhost:7000/api/jobs")
       .then(response => response.json())
-      .then(data => setJobs(data))
-      .catch(error => console.error("Error fetching jobs:", error));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setJobs(data);
+        } else {
+          setJobs([]); // Fallback to empty array if response is not an array
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching jobs:", error);
+        setJobs([]); // Handle errors gracefully
+      });
   }, []);
 
   const handleDeleteClick = (job) => {
@@ -36,7 +45,7 @@ const AdminDashboard = () => {
           "Content-Type": "application/json"
         }
       });
-      
+
       if (response.ok) {
         setJobs(jobs.filter(job => job.id !== selectedJob.id));
         setToastMessage({ type: 'success', text: 'Job deleted successfully!' });
@@ -67,22 +76,18 @@ const AdminDashboard = () => {
                 <tr>
                   <th>JOBS</th>
                   <th>STATE</th>
-                  <th>SALARY</th>
-                  <th>LOCATION</th>
-                  <th>POSTED AT</th>
+                  <th>APPLICATIONS</th>
                   <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
-                {jobs.map((job) => (
+                {(jobs || []).map((job) => ( // Ensure jobs is always iterable
                   <tr key={job.id}>
                     <td>{job.job_title}</td>
                     <td>{job.state}</td>
-                    <td>{job.salary} {job.currency}</td>
-                    <td>{job.location}</td>
-                    <td>{new Date(job.posted_at).toLocaleDateString()}</td>
+                    <td>{job.applications_count || 0}</td> {/* Display application count */}
                     <td>
-                      <button className="view-btn">View Application</button>
+                      <button className="view-btn">View Applications</button>
                       <button className="delete-btn" onClick={() => handleDeleteClick(job)}>
                         <FaTrashAlt />
                       </button>
