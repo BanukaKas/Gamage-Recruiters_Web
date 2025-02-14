@@ -1,9 +1,19 @@
 // AdminController.js
 const db = require("../utils/db");
 
-// Controller to get all job postings
+// Controller to get all job postings, ensuring only one instance per job_title and state is returned
 const getAllJobs = (req, res) => {
-    const query = "SELECT * FROM postedjobs ORDER BY posted_at DESC";
+    const query = `
+        SELECT pj.*, 
+               (SELECT COUNT(*) 
+                FROM postedjobs p 
+                WHERE p.job_title = pj.job_title AND p.state = pj.state) AS applications_count
+        FROM postedjobs pj 
+        WHERE pj.id = (SELECT MIN(id) 
+                       FROM postedjobs 
+                       WHERE job_title = pj.job_title AND state = pj.state)
+        ORDER BY pj.posted_at DESC
+    `;
     
     db.query(query, (err, results) => {
         if (err) {
